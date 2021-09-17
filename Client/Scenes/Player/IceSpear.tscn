@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Assets/Player/Effects/icicle_0.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/Player/IceSpear.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Sounds/explode_hit.wav" type="AudioStream" id=3]
+
+[node name="IceSpear" type="RigidBody2D"]
+collision_layer = 8
+collision_mask = 5
+mass = 15.0
+gravity_scale = 0.0
+contacts_reported = 1
+contact_monitor = true
+script = ExtResource( 2 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( 8.25068, -5.3299, 18.867, -2.17654, 15.083, -1.23053, 8.04046, 0.556377 )
+
+[node name="Sprite" type="Sprite" parent="."]
+rotation = 3.14159
+texture = ExtResource( 1 )
+hframes = 8
+vframes = 8
+
+[node name="AudioStreamPlayer_Hit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+
+[connection signal="body_entered" from="." to="." method="_on_IceSpear_body_entered"]
