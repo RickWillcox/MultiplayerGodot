@@ -9,5 +9,11 @@ func _ready():
 	PlayerIDs_file.close()
 	PlayerIDs = PlayerIDs_json.result
 
+func SavePlayerIDs():
+	var save_file = File.new()
+	save_file.open("res://Data/PlayerData.json", File.WRITE)
+	save_file.store_line(to_json(PlayerIDs))
+	save_file.close()
+	
 
 

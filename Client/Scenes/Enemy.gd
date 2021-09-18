@@ -1,36 +1,58 @@
 extends KinematicBody2D
 
 
-var hp 
-export var max_hp = 100
+var max_hp	
+var current_hp
+var state
+var type
 
 func _ready():
-	hp = max_hp
+	var percentage_hp = int((float(current_hp) / max_hp) * 100)
+	current_hp = max_hp
 	$HealthBar.max_value = max_hp
-	$HealthBar.value = hp
+	$HealthBar.value = percentage_hp
 	$Rekt.visible = false
+	if state == "Idle":
+		pass
+	elif state == "Dead":
+		OnDeath()
+		#hide health bar and hitboes here later
 
 func _physics_process(delta):
-	$HealthBar.value = hp
+	pass
 	
-
+func MoveEnemy(new_position):
+	set_position(new_position)
+	
 func on_hit(damage):
-	print("enemy hit")
-	if hp > 0:
-		hp -= damage
-		if hp <= 0:
-			$AnimationPlayer.play("Death")
-			$AudioStreamPlayer_Death.play()
-			$Rekt.visible = true
-			yield(get_tree().create_timer(0.1), "timeout")
-			$Rekt.visible = false
-			$HealthBar.visible = false
-			rotation = 90
-			position = get_position() + Vector2(-10,-8)
-			yield(get_tree().create_timer(1.5), "timeout")
-			self.queue_free()
+	Server.NPCHit(int(get_name()), damage)
+	#if current_hp > 0:
+	#	current_hp -= damage
+	#	if current_hp <= 0:
+	#		OnDeath()
+			
+func Health(health):
+	if health != current_hp:
+		current_hp = health
+		HealthBarUpdate()
+		if current_hp <= 0:
+			OnDeath()
+			
+func HealthBarUpdate(): #15 25min
+	var percentage_hp = int((float(current_hp) / max_hp) * 100)
+	$HealthBar.value = percentage_hp
+
 		
-		
-		
+func OnDeath():
+	$AnimationPlayer.play("Death")
+	$AudioStreamPlayer_Death.play()
+	$Rekt.visible = true
+	yield(get_tree().create_timer(0.1), "timeout")
+	$Rekt.visible = false
+	$HealthBar.visible = false
+	rotation = 90
+	position = get_position() + Vector2(-10,-8)
+	yield(get_tree().create_timer(1.5), "timeout")
+	self.hide()
 
 

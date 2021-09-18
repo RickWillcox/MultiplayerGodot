@@ -4,10 +4,10 @@
 [ext_resource path="res://Assets/Isometric Tiles/dirt_128x64.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/Player/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Props/Tree.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Scenes/Enemy.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/LoginScreen.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/PlayerStats.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/CreateAccountScreen.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/Maps/Map.gd" type="Script" id=9]
 
 [sub_resource type="TileSet" id=1]
 0/name = "Grass"
@@ -58,6 +58,7 @@
 1/z_index = 0
 
 [node name="Map" type="Node2D"]
+script = ExtResource( 9 )
 
 [node name="BackgroundGrass" type="TileMap" parent="."]
 mode = 1
@@ -82,8 +83,9 @@ scale = Vector2( 2, 2 )
 [node name="Player" parent="YSort" instance=ExtResource( 3 )]
 position = Vector2( 171.676, 314.223 )
 
-[node name="Enemy" parent="YSort" instance=ExtResource( 5 )]
-position = Vector2( 941.786, 469.5 )
+[node name="OtherPlayers" type="YSort" parent="YSort"]
+
+[node name="Enemies" type="YSort" parent="YSort"]
 
 [node name="GUI" type="CanvasLayer" parent="."]
 
@@ -96,3 +98,5 @@ position = Vector2( 941.786, 469.5 )
 [node name="PlayerStats" parent="GUI" instance=ExtResource( 7 )]
 pause_mode = 2
 visible = false
+
+[editable path="GUI/CreateAccountScreen"]

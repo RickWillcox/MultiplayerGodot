@@ -4,6 +4,7 @@ var network = NetworkedMultiplayerENet.new()
 var gateway_api = MultiplayerAPI.new()
 var port = 1912
 var ip = "192.99.247.42"
+#var ip = "127.0.0.1"
 
 onready var gameserver = get_node("/root/Server")
 

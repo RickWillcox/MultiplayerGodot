@@ -4,13 +4,12 @@ var network = NetworkedMultiplayerENet.new()
 var gateway_api = MultiplayerAPI.new()
 var port = 1910
 var ip = "192.99.247.42"
+#var ip = "127.0.0.1"
 var cert = load("res://Assets/Certificate/X509_Certificate.crt")
 
 var username
 var password
 var new_account
-
-signal close_account_screen_signal
 
 func _ready():
 	pass
@@ -45,6 +44,10 @@ func _OnConnectionFailed():
 	print("Failed to connect to the login server")
 	print("Pop-up server offline.... or something")
 	get_node("../SceneHandler/Map/GUI/LoginScreen").login_button.disabled = false
+	get_node("../SceneHandler/Map/GUI/CreateAccountScreen").CreateAccountButton.disabled = false
+	get_node("../SceneHandler/Map/GUI/CreateAccountScreen").BackButton.disabled = false
+	get_node("../SceneHandler/Map/GUI/LoginScreen").login_button.disabled = false
+	
 	
 func _OnConnectionSucceeded():
 	print("Successfully connected to login server")
@@ -56,13 +59,13 @@ func _OnConnectionSucceeded():
 
 func RequestCreateAccount():
 	print("Requesting to make new account")
-	rpc_id(1, "CreateAccountRequest", username, password)
+	rpc_id(1, "CreateAccountRequest", username, password.sha256_text())
 	username = ""
 	password = ""
 	
 func RequestLogin():
 	print("Connecting to gateway to request login")
-	rpc_id(1, "LoginRequest", username, password)
+	rpc_id(1, "LoginRequest", username, password.sha256_text())
 	username = ""
 	password = ""
 
@@ -82,13 +85,21 @@ remote func ReturnLoginRequest(results, token):
 # warning-ignore:unused_argument
 remote func ReturnCreateAccountRequest(valid_request, message):
 	#1 = failed to create, 2 = username already in use, 3 = account created successfully
-	if message == 1:
-		emit_signal("close_account_screen_signal")
-	elif message == 2:
-		pass
-	elif message == 3:
-		pass
-		
+	if valid_request == true:
+		get_node("../SceneHandler/Map/GUI/CreateAccountScreen").account_created_message_screen.visible = true
+		yield(get_tree().create_timer(1.5), "timeout")
+		get_node("../SceneHandler/Map/GUI/CreateAccountScreen").visible = false
+		get_node("../SceneHandler/Map/GUI/CreateAccountScreen").account_created_message_screen.visible = false
+		get_node("../SceneHandler/Map/GUI/LoginScreen").visible = true
 		print("Account Created")
+	elif message == 1:
+		print("Couldnt Create Account, please try again")
+	elif message == 2:
+		print("Username already exists")
+		get_node("../SceneHandler/Map/GUI/CreateAccountScreen").create_account_button.disabled = false
+		get_node("../SceneHandler/Map/GUI/CreateAccountScreen").back_button.disabled = false
 	
+	network.disconnect("connection_failed", self, "_OnConnectionFailed")
+	network.disconnect("connection_succeeded", self, "_OnConnectionSucceeded")
+
 		

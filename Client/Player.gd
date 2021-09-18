@@ -17,15 +17,16 @@ var attacking = false
 var moving = false
 var rate_of_fire = 0.2
 var can_fire = true
-
+var player_state
 
 func _ready():
-	pass
+	set_physics_process(false)
+
 	
 func _unhandled_input(event):
 	if event.is_action_pressed("Click"):
 		moving = true
-		#destination = get_global_mouse_position()
+		destination = get_global_mouse_position()
 	elif event.is_action_pressed("Attack") and can_fire == true:
 		moving = false
 		attacking = true
@@ -38,15 +39,16 @@ func _unhandled_input(event):
 	elif event.is_action_released("PlayerStatsPanel") and get_tree().get_nodes_in_group("LoginGroup").size() == 0: 
 		Server.FetchPlayerStats()
 		player_stats_panel.visible = !player_stats_panel.visible
-		
-		
-		
-
+			
 func _physics_process(delta):
-	animation_player.playback_speed = 15
-	destination = get_global_mouse_position()
+	#destination = get_global_mouse_position()
 	MovementLoop(delta)
+	DefinePlayerState()
 	
+func DefinePlayerState():
+	player_state = {"T": OS.get_system_time_msecs(), "P": get_global_position()}
+	Server.SendPlayerState(player_state)
+
 func Attack():
 	animation_mode.travel("Attack_Spell")
 	get_node("TurnAxis").rotation = get_angle_to(get_global_mouse_position())

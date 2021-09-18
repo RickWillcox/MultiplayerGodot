@@ -2,6 +2,7 @@ extends Node
 
 var network = NetworkedMultiplayerENet.new()
 var ip = "192.99.247.42"
+#var ip = "127.0.0.1"
 var port = 1911
 
 
@@ -36,3 +37,8 @@ func ReturnLoginRequest(result, player_id):
 #my shit
 func CreateAccount(username, password, player_id):
 	rpc_id(1, "CreateAccount", username, password, player_id)
+	print("Sending Create Account Request Gateway > Auth")
+	
+remote func CreateAccountResults(result, player_id, message):
+	print("Results recevied Auth > Gateway and replying to player account request")
+	Gateway.ReturnCreateAccountRequest(result, player_id, message)

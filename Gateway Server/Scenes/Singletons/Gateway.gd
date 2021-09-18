@@ -47,7 +47,7 @@ func ReturnLoginRequest(result, player_id, token):
 remote func CreateAccountRequest(username, password):
 	print("Account creation request received" + " " + username + " " + password)
 	var player_id = custom_multiplayer.get_rpc_sender_id()
-	var valid_request = false
+	var valid_request = true
 	if username == "" or password == "":
 		valid_request = false
 	if valid_request == true:

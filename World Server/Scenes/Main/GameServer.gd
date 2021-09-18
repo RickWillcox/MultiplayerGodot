@@ -15,6 +15,7 @@ var port = 1909
 var max_players = 100
 
 var expected_tokens = []
+var player_state_collection = {}
 
 func _ready():
 	StartServer()
@@ -33,7 +34,19 @@ func _Peer_Connected(player_id):
 	
 func _Peer_Disconnected(player_id):
 	print("User: " + str(player_id) + " disconnected")
-
+	if has_node(str(player_id)):
+		get_node(str(player_id)).queue_free()
+		player_state_collection.erase(player_id)
+		rpc_id(0, "DespawnPlayer", player_id)
+		
+remote func FetchServerTime(client_time):
+	var player_id = get_tree().get_rpc_sender_id()
+	rpc_id(player_id, "ReturnServerTime", OS.get_system_time_msecs(), client_time)	
+	
+remote func DetermineLatency(client_time):
+	var player_id = get_tree().get_rpc_sender_id()
+	rpc_id(player_id, "ReturnLatency", client_time)
+	
 func Fetch_Token(player_id):
 	rpc_id(player_id, "FetchToken")
 	
@@ -43,6 +56,8 @@ remote func ReturnToken(token):
 
 func ReturnTokenVerificationResults(player_id, result):
 	rpc_id(player_id, "ReturnTokenVerificationResults", result)
+	if result == true:
+		rpc_id(0, "SpawnNewPlayer", player_id, Vector2(450, 220))
 
 remote func FetchSkillDamage(skill_name, requester):
 	var player_id = get_tree().get_rpc_sender_id()
@@ -65,5 +80,17 @@ func _on_TokenExpiration_timeout():
 			token_time = int(expected_tokens[i].right(64))
 			if current_time - token_time >= 30:
 				expected_tokens.remove(i)
-	#print("Expected Tokens:")
-	#print(expected_tokens)
+
+remote func ReceivePlayerState(player_state):
+	var player_id = get_tree().get_rpc_sender_id()
+	if player_state_collection.has(player_id): #check if player is in current collection
+		if player_state_collection[player_id]["T"] < player_state["T"]: #check if player state is the latest one
+			player_state_collection[player_id] = player_state #replace the player state in collection
+	else:
+		player_state_collection[player_id] = player_state #add player state to the collection
+	
+func SendWorldState(world_state): #in case of maps or chunks you will want to track player collection and send accordingly
+	rpc_unreliable_id(0, "ReceiveWorldState", world_state)
+
+remote func SendNPCHit(enemy_id, damage):
+	get_node("Map").NPCHit(enemy_id, damage)

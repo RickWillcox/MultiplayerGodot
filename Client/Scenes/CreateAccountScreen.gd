@@ -4,8 +4,10 @@ onready var username_input = get_node("Background/VBoxContainer/Username")
 onready var userpassword_input = get_node("Background/VBoxContainer/Password")
 onready var userpasswordrepeat_input = get_node("Background/VBoxContainer/RepeatPassword")
 onready var create_account_button = get_node("Background/VBoxContainer/CreateAccountButton")
-onready var back_button = get_node("Background/VBoxContainer/Back_Button")
-onready var Login_screen = get_parent().get_node("LoginScreen")
+onready var back_button = get_node("Background/VBoxContainer/BackButton")
+onready var login_screen = get_parent().get_node("LoginScreen")
+onready var account_created_message_screen = get_node("AccountCreatedMessageScreen")
+onready var create_account_screen = get_parent().get_node("CreateAccountScreen")
 
 func _ready():
 	self.visible = false
@@ -29,12 +31,6 @@ func _on_CreateAccountButton_pressed():
 
 func _on_Back_Button_pressed():
 	self.visible = false
-	Login_screen.visible = true
+	login_screen.visible = true
 
-func _enter_tree():
-# warning-ignore:return_value_discarded
-	Gateway.connect("close_account_screen_signal", self, "_on_close_account_screen_signal")
-
-func _on_close_account_screen_signal():
-	_on_Back_Button_pressed()
 	

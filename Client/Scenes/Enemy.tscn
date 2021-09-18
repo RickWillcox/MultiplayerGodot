@@ -9,7 +9,7 @@
 [sub_resource type="CapsuleShape2D" id=1]
 height = 36.2094
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 resource_name = "Death"
 length = 2.0
 step = 0.25
@@ -26,8 +26,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.854902 ), Color( 1, 1, 1, 0.537255 ), Color( 1, 1, 1, 0.317647 ), Color( 1, 1, 1, 0.160784 ), Color( 1, 1, 1, 0.0823529 ), Color( 1, 1, 1, 0.0235294 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "Idle"
+[sub_resource type="Animation" id=3]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -64,14 +63,14 @@ shape = SubResource( 1 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Idle"
 playback_speed = 0.3
-anims/Death = SubResource( 3 )
-anims/Idle = SubResource( 2 )
+anims/Death = SubResource( 2 )
+anims/Idle = SubResource( 3 )
 
 [node name="HealthBar" type="TextureProgress" parent="."]
-margin_left = -14.0
-margin_top = -64.0
-margin_right = 10.0
-margin_bottom = -61.0
+margin_left = -28.0236
+margin_top = -70.1984
+margin_right = 23.9764
+margin_bottom = -63.1984
 value = 100.0
 texture_under = ExtResource( 2 )
 texture_progress = ExtResource( 2 )
