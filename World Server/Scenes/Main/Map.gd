@@ -8,7 +8,7 @@ var open_locations = [0,1,2]
 var occupied_locations = {}
 var enemy_list = {}
 
-func _ready():
+func _ready(): 
 	var timer = Timer.new()
 	timer.wait_time = 3
 	timer.autostart = true
