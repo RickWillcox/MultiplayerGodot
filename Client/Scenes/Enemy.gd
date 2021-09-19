@@ -7,10 +7,10 @@ var state
 var type
 
 func _ready():
-	var percentage_hp = int((float(current_hp) / max_hp) * 100)
-	current_hp = max_hp
+#	var percentage_hp = int((float(current_hp) / max_hp) * 100)
+#	current_hp = max_hp
 	$HealthBar.max_value = max_hp
-	$HealthBar.value = percentage_hp
+	$HealthBar.value = current_hp
 	$Rekt.visible = false
 	if state == "Idle":
 		pass
@@ -40,7 +40,7 @@ func Health(health):
 			
 func HealthBarUpdate(): #15 25min
 	var percentage_hp = int((float(current_hp) / max_hp) * 100)
-	$HealthBar.value = percentage_hp
+	$HealthBar.value = current_hp
 
 		
 func OnDeath():
