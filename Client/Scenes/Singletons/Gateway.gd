@@ -41,8 +41,8 @@ func ConnectToServer(_username, _password, _new_account):
 	network.connect("connection_succeeded", self, "_OnConnectionSucceeded")	
 
 func _OnConnectionFailed():	
-	print("Failed to connect to the login server")
-	print("Pop-up server offline.... or something")
+	#print("Failed to connect to the login server")
+	#print("Pop-up server offline.... or something")
 	get_node("../SceneHandler/Map/GUI/LoginScreen").login_button.disabled = false
 	get_node("../SceneHandler/Map/GUI/CreateAccountScreen").CreateAccountButton.disabled = false
 	get_node("../SceneHandler/Map/GUI/CreateAccountScreen").BackButton.disabled = false
@@ -50,7 +50,7 @@ func _OnConnectionFailed():
 	
 	
 func _OnConnectionSucceeded():
-	print("Successfully connected to login server")
+	#print("Successfully connected to login server")
 	if not new_account:
 		RequestLogin()
 	else:
@@ -58,26 +58,26 @@ func _OnConnectionSucceeded():
 
 
 func RequestCreateAccount():
-	print("Requesting to make new account")
+	#print("Requesting to make new account")
 	rpc_id(1, "CreateAccountRequest", username, password.sha256_text())
 	username = ""
 	password = ""
 	
 func RequestLogin():
-	print("Connecting to gateway to request login")
+	#print("Connecting to gateway to request login")
 	rpc_id(1, "LoginRequest", username, password.sha256_text())
 	username = ""
 	password = ""
 
 remote func ReturnLoginRequest(results, token):
-	print("results received: " + str(results))
+	#print("results received: " + str(results))
 	if results == true:
 		Server.token = token
 		Server.ConnectToServer()
 		#Server.FetchPlayerStats()
 		
 	else:
-		print("Login Failed -- Please provide a valid username and password")
+		#print("Login Failed -- Please provide a valid username and password")
 		get_node("../SceneHandler/Map/GUI/LoginScreen").login_button.disabled = false
 	network.disconnect("connection_failed", self, "_OnConnectionFailed")
 	network.disconnect("connection_succeeded", self, "_OnConnectionSucceeded")

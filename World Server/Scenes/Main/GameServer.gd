@@ -23,17 +23,17 @@ func _ready():
 func StartServer():
 	network.create_server(port, max_players)
 	get_tree().set_network_peer(network)
-	print("World Server Started")
+	#print("World Server Started")
 
 	network.connect("peer_connected", self, "_Peer_Connected")
 	network.connect("peer_disconnected", self, "_Peer_Disconnected")	
 	
 func _Peer_Connected(player_id):
-	print("User: " + str(player_id) + " connected")
+	#print("User: " + str(player_id) + " connected")
 	player_verification_process.start(player_id)
 	
 func _Peer_Disconnected(player_id):
-	print("User: " + str(player_id) + " disconnected")
+	#print("User: " + str(player_id) + " disconnected")
 	if has_node(str(player_id)):
 		get_node(str(player_id)).queue_free()
 		player_state_collection.erase(player_id)
@@ -63,7 +63,7 @@ remote func FetchSkillDamage(skill_name, requester):
 	var player_id = get_tree().get_rpc_sender_id()
 	var damage = get_node("Combat").FetchSkillDamage(skill_name)
 	rpc_id(player_id, "ReturnSkillDamage", damage, requester)
-	print("Sending: " + str(damage) + " " + skill_name + " damage to player")
+	#print("Sending: " + str(damage) + " " + skill_name + " damage to player")
 
 remote func FetchPlayerStats():
 	var player_id = get_tree().get_rpc_sender_id()
@@ -94,3 +94,7 @@ func SendWorldState(world_state): #in case of maps or chunks you will want to tr
 
 remote func SendNPCHit(enemy_id, damage):
 	get_node("Map").NPCHit(enemy_id, damage)
+
+remote func Attack(position, animation_vector, spawn_time):
+	var player_id = get_tree().get_rpc_sender_id()
+	rpc_id(0, "ReceiveAttack", position, animation_vector, spawn_time, player_id)

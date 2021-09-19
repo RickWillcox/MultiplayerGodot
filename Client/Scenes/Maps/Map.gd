@@ -29,7 +29,7 @@ func SpawnNewEnemy(enemy_id, enemy_dict):
 
 func DespawnPlayer(player_id):
 	yield(get_tree().create_timer(0.3), "timeout")
-	get_node("YSort/OtherPlayers" + str(player_id)).queue_free()
+	get_node("YSort/OtherPlayers/" + str(player_id)).queue_free()
 
 func UpdateWorldState(world_state):
 	if world_state["T"] > last_world_state:
@@ -42,7 +42,7 @@ func _physics_process(delta):
 	if world_state_buffer.size() > 1:
 		
 		if printed_world_state == false:
-			print(world_state_buffer[1])
+			#print(world_state_buffer[1])
 			printed_world_state = true
 #		print("Server Clock: " + str(Server.client_clock))
 #		print("System Clock: " + str(OS.get_system_time_msecs()))
@@ -63,9 +63,10 @@ func _physics_process(delta):
 					continue
 				if get_node("YSort/OtherPlayers").has_node(str(player)):
 					var new_position = lerp(world_state_buffer[1][player]["P"], world_state_buffer[2][player]["P"], inperpolation_factor)
-					get_node("YSort/OtherPlayers/" + str (player)).MovePlayer(new_position)
+					var animation_vector = world_state_buffer[2][player]["A"]
+					get_node("YSort/OtherPlayers/" + str (player)).MovePlayer(new_position, animation_vector)
 				else:
-					print("spawning player")
+					#print("spawning player")
 					SpawnNewPlayer(player, world_state_buffer[2][player]["P"])
 			for enemy in world_state_buffer[2]["Enemies"].keys(): 
 				if not world_state_buffer[1]["Enemies"].has(enemy): #if you find enemy in this world state but wasnt in previous world state (15ms before) do nothing #15 10:00
@@ -90,4 +91,5 @@ func _physics_process(delta):
 				if get_node("YSort/OtherPlayers").has_node(str(player)):		
 					var position_delta = (world_state_buffer[1][player]["P"] - world_state_buffer[0][player]["P"])
 					var new_position = world_state_buffer[1][player]["P"] + (position_delta * extrapolation_factor)
-					get_node("YSort/OtherPlayers/" + str(player)).MovePlayer(new_position)
+					var animation_vector = world_state_buffer[1][player]["A"]
+					get_node("YSort/OtherPlayers/" + str(player)).MovePlayer(new_position, animation_vector)

@@ -18,6 +18,7 @@ var moving = false
 var rate_of_fire = 0.2
 var can_fire = true
 var player_state
+var animation_vector = Vector2()
 
 func _ready():
 	set_physics_process(false)
@@ -31,11 +32,11 @@ func _unhandled_input(event):
 		moving = false
 		attacking = true
 		can_fire = false
-		print(position.direction_to(get_global_mouse_position()).normalized())
-		animation_tree.set("parameters/Attack_Spell/blend_position", position.direction_to(get_global_mouse_position()).normalized())
-		animation_tree.set("parameters/Idle/blend_position", position.direction_to(get_global_mouse_position()).normalized())
+		animation_vector = position.direction_to(get_global_mouse_position()).normalized()
+		animation_tree.set("parameters/Attack_Spell/blend_position", animation_vector)
+		animation_tree.set("parameters/Idle/blend_position", animation_vector)
 		Attack()
-	#this bit is busted
+
 	elif event.is_action_released("PlayerStatsPanel") and get_tree().get_nodes_in_group("LoginGroup").size() == 0: 
 		Server.FetchPlayerStats()
 		player_stats_panel.visible = !player_stats_panel.visible
@@ -46,10 +47,11 @@ func _physics_process(delta):
 	DefinePlayerState()
 	
 func DefinePlayerState():
-	player_state = {"T": OS.get_system_time_msecs(), "P": get_global_position()}
+	player_state = {"T": Server.client_clock, "P": get_global_position(), "A": animation_vector}
 	Server.SendPlayerState(player_state)
 
 func Attack():
+	Server.SendAttack(position, animation_vector)
 	animation_mode.travel("Attack_Spell")
 	get_node("TurnAxis").rotation = get_angle_to(get_global_mouse_position())
 	var ice_spear_instance = ice_spear.instance()
@@ -71,11 +73,12 @@ func MovementLoop(delta):
 		movement = position.direction_to(destination) * speed
 		if position.distance_to(destination) > 10:
 			movement = move_and_slide(movement)
-			animation_tree.set("parameters/Walk/blend_position", movement.normalized())
-			animation_tree.set("parameters/Idle/blend_position", movement.normalized())	
+			animation_vector = movement.normalized()
+			animation_tree.set("parameters/Walk/blend_position", animation_vector)
+			animation_tree.set("parameters/Idle/blend_position", animation_vector)	
 			animation_mode.travel("Walk")
 		else:
 			moving = false	
 			animation_mode.travel("Idle")
-			print("idle")
+			
 			

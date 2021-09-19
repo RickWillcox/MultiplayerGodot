@@ -68,8 +68,8 @@ remote func ReturnLatency(client_time):
 				total_latency += latency_array[i]
 		delta_latency = (total_latency / latency_array.size()) - latency
 		latency = total_latency / latency_array.size()
-		print("New Latency: ", latency)
-		print("Delta Latency: ", delta_latency)
+		#print("New Latency: ", latency)
+		#print("Delta Latency: ", delta_latency)
 		latency_array.clear()
 	pass
 	
@@ -84,9 +84,9 @@ remote func ReturnTokenVerificationResults(result):
 	if result == true:
 		get_node("../SceneHandler/Map/GUI/LoginScreen").queue_free()
 		get_node("../SceneHandler/Map/YSort/Player").set_physics_process(true)
-		print("Successful Token Verification")
+		#print("Successful Token Verification")
 	else:
-		print("Login Failed please try again")
+		#print("Login Failed please try again")
 		get_node("../SceneHandler/Map/GUI/LoginScreen").login_button.disabled = false
 		
 func SendPlayerState(player_state):
@@ -107,10 +107,16 @@ remote func ReturnPlayerStats(stats):
 remote func SpawnNewPlayer(player_id, spawn_position):
 	get_node("../SceneHandler/Map").SpawnNewPlayer(player_id, spawn_position)
 
-remote func DespawnPlayer(player_id, spawn_position):
+remote func DespawnPlayer(player_id):
 	get_node("../SceneHandler/Map").DespawnPlayer(player_id)
 
 func NPCHit(enemy_id, damage):
 	rpc_id(1, "SendNPCHit", enemy_id, damage)
 
+func SendAttack(position, animation_vector):
+	rpc_id(1, "Attack", position, animation_vector, client_clock)
 	
+remote func ReceiveAttack(position, animation_vector, spawn_time, player_id):
+	if player_id == get_tree().get_network_unique_id():
+		pass #make client side predictions here
+	else: get_node("/root/SceneHandler/Map/YSort/OtherPlayers/" + str(player_id)).attack_dict[spawn_time] = {"Position": position, "AnimationVector": animation_vector}
