@@ -6,8 +6,8 @@
 extends Node
 
 var network = NetworkedMultiplayerENet.new()
-var ip = "192.99.247.42"
-#var ip = "127.0.0.1"
+#var ip = "192.99.247.42"
+var ip = "127.0.0.1"
 var port = 1909
 
 var client_clock = 0
@@ -113,8 +113,8 @@ remote func DespawnPlayer(player_id):
 func NPCHit(enemy_id, damage):
 	rpc_id(1, "SendNPCHit", enemy_id, damage)
 
-func SendAttack(position, animation_vector):
-	rpc_id(1, "Attack", position, animation_vector, client_clock)
+func SendAttack(position, animation_vector, a_rotation, a_position, a_direction):
+	rpc_id(1, "Attack", position, animation_vector, client_clock, a_rotation, a_position, a_direction)
 	
 remote func ReceiveAttack(position, animation_vector, spawn_time, player_id):
 	if player_id == get_tree().get_network_unique_id():

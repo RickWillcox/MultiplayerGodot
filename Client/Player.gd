@@ -51,13 +51,16 @@ func DefinePlayerState():
 	Server.SendPlayerState(player_state)
 
 func Attack():
-	Server.SendAttack(position, animation_vector)
-	animation_mode.travel("Attack_Spell")
 	get_node("TurnAxis").rotation = get_angle_to(get_global_mouse_position())
 	var ice_spear_instance = ice_spear.instance()
-	ice_spear_instance.impulse_rotation = get_angle_to(get_global_mouse_position())
-	ice_spear_instance.position = get_node("TurnAxis/CastPoint").get_global_position() 
-	ice_spear_instance.direction = get_node("TurnAxis/CastPoint").get_global_position().direction_to(get_global_mouse_position()).normalized()
+	var a_rotation = get_angle_to(get_global_mouse_position())
+	var a_position = get_node("TurnAxis/CastPoint").get_global_position() 
+	var a_direction = get_node("TurnAxis/CastPoint").get_global_position().direction_to(get_global_mouse_position()).normalized()
+	Server.SendAttack(position, animation_vector, a_rotation, a_position, a_direction)
+	ice_spear_instance.impulse_rotation = a_rotation
+	ice_spear_instance.position = a_position
+	ice_spear_instance.direction = a_direction
+	animation_mode.travel("Attack_Spell")
 	get_parent().add_child(ice_spear_instance)
 	yield(get_tree().create_timer(0.4), "timeout")
 	get_parent().add_child(ice_spear_instance)
