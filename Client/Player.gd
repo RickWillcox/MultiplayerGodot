@@ -15,7 +15,7 @@ var destination = Vector2()
 var movement = Vector2()
 var attacking = false
 var moving = false
-var rate_of_fire = 0.2
+var rate_of_fire = 0.1
 var can_fire = true
 var player_state
 var animation_vector = Vector2()
@@ -55,10 +55,13 @@ func Attack():
 	animation_mode.travel("Attack_Spell")
 	get_node("TurnAxis").rotation = get_angle_to(get_global_mouse_position())
 	var ice_spear_instance = ice_spear.instance()
+	ice_spear_instance.impulse_rotation = get_angle_to(get_global_mouse_position())
 	ice_spear_instance.position = get_node("TurnAxis/CastPoint").get_global_position() 
-	ice_spear_instance.rotation = get_angle_to(get_global_mouse_position())
+	ice_spear_instance.direction = get_node("TurnAxis/CastPoint").get_global_position().direction_to(get_global_mouse_position()).normalized()
 	get_parent().add_child(ice_spear_instance)
-	
+	yield(get_tree().create_timer(0.4), "timeout")
+	get_parent().add_child(ice_spear_instance)
+	yield(get_tree().create_timer(0.4), "timeout")
 	yield(get_tree().create_timer(rate_of_fire), "timeout")
 	can_fire = true
 	attacking = false

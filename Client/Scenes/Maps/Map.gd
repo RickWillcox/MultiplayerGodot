@@ -42,7 +42,6 @@ func _physics_process(delta):
 	if world_state_buffer.size() > 1:
 		
 		if printed_world_state == false:
-			#print(world_state_buffer[1])
 			printed_world_state = true
 #		print("Server Clock: " + str(Server.client_clock))
 #		print("System Clock: " + str(OS.get_system_time_msecs()))

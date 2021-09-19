@@ -25,7 +25,7 @@ func _on_CreateAccountButton_pressed():
 # warning-ignore:unused_variable
 		var repeat_password = userpasswordrepeat_input.get_text()
 		print("Attempting to Create Account")	
-		#server stuffs
+
 		Gateway.ConnectToServer(username, password, true)
 		
 

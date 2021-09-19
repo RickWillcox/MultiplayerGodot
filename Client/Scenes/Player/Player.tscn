@@ -707,7 +707,7 @@ position = Vector2( 0, -40.0025 )
 texture = ExtResource( 1 )
 hframes = 28
 vframes = 8
-frame = 169
+frame = 57
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -1.57489, -16.379 )
@@ -745,7 +745,7 @@ anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/playback = SubResource( 60 )
 parameters/Attack_Spell/blend_position = Vector2( -0.702172, 0.0387597 )
-parameters/Idle/blend_position = Vector2( -0.00103414, 0.317829 )
+parameters/Idle/blend_position = Vector2( -0.278835, -1.02101 )
 parameters/Walk/blend_position = Vector2( 0, 0 )
 
 [node name="TurnAxis" type="Position2D" parent="."]

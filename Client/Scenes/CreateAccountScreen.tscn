@@ -212,6 +212,7 @@ scale = Vector2( 0.247824, 0.321845 )
 texture = ExtResource( 4 )
 
 [node name="AccountCreatedMessageScreen" parent="." instance=ExtResource( 7 )]
+visible = false
 
 [connection signal="pressed" from="Background/VBoxContainer/CreateAccountButton" to="." method="_on_CreateAccountButton_pressed"]
 [connection signal="pressed" from="Background/VBoxContainer/BackButton" to="." method="_on_Back_Button_pressed"]

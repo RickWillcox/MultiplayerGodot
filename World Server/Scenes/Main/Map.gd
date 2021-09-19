@@ -1,9 +1,9 @@
 extends Node
 
 var enemy_id_counter = 1 
-var enemy_maximum = 2
+var enemy_maximum = 3
 var enemy_types = ["Spooky Man"] #list of enemies that spawn
-var enemy_spawn_points = [Vector2 (900, 470), Vector2 (300, 600), Vector2 (150, 90)]
+var enemy_spawn_points = [Vector2 (900, 470), Vector2 (450, 600), Vector2 (150, 150)]
 var open_locations = [0,1,2]
 var occupied_locations = {}
 var enemy_list = {}

@@ -31,18 +31,20 @@ func MovePlayer(new_position, animation_vector):
 func Attack():
 	for attack in attack_dict.keys():
 		if attack <= Server.client_clock:
-			state = "Attack_Spell"
+			state = "Attack"
 			animation_tree.set('parameters/Attack_Spell/blend_position', attack_dict[attack]["AnimationVector"])
 			animation_mode.travel("Attack_Spell")
 			set_position(attack_dict[attack]["Position"])
 			
 			get_node("TurnAxis").rotation = get_angle_to(position + attack_dict[attack]["AnimationVector"])
 			var icespear_instance = icespear.instance()
-			print(str(attack_dict[attack]["AnimationVector"]) + " " + str(position))
 			icespear_instance.impulse_rotation = get_angle_to(position + attack_dict[attack]["AnimationVector"])
 			icespear_instance.position = get_node("TurnAxis/CastPoint").get_global_position()
 			icespear_instance.direction = attack_dict[attack]["AnimationVector"]	
 			icespear_instance.original = false
+			print("impulse rotation", icespear_instance.impulse_rotation)
+			print("position", icespear_instance.position )
+			print("direction", icespear_instance.direction )
 			attack_dict.erase(attack)
 			yield(get_tree().create_timer(0.4), "timeout")
 			get_parent().add_child(icespear_instance)

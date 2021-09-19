@@ -95,6 +95,15 @@ position = Vector2( 171.676, 314.223 )
 
 [node name="CreateAccountScreen" parent="GUI" instance=ExtResource( 8 )]
 
+[node name="Username" parent="GUI/CreateAccountScreen/Background/VBoxContainer" index="3"]
+text = ""
+
+[node name="Password" parent="GUI/CreateAccountScreen/Background/VBoxContainer" index="6"]
+text = ""
+
+[node name="RepeatPassword" parent="GUI/CreateAccountScreen/Background/VBoxContainer" index="9"]
+text = ""
+
 [node name="PlayerStats" parent="GUI" instance=ExtResource( 7 )]
 pause_mode = 2
 visible = false

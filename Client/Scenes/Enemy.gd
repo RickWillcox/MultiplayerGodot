@@ -7,8 +7,6 @@ var state
 var type
 
 func _ready():
-#	var percentage_hp = int((float(current_hp) / max_hp) * 100)
-#	current_hp = max_hp
 	$HealthBar.max_value = max_hp
 	$HealthBar.value = current_hp
 	$Rekt.visible = false
@@ -26,10 +24,7 @@ func MoveEnemy(new_position):
 	
 func on_hit(damage):
 	Server.NPCHit(int(get_name()), damage)
-	#if current_hp > 0:
-	#	current_hp -= damage
-	#	if current_hp <= 0:
-	#		OnDeath()
+
 			
 func Health(health):
 	if health != current_hp:
