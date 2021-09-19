@@ -5,6 +5,7 @@ var player_spawn = preload("res://Scenes/Player/PlayerTemplate.tscn")
 var last_world_state = 0
 var world_state_buffer = []
 const interpolation_offset = 20
+var printed_world_state = false
 
 func SpawnNewPlayer(player_id, spawn_position):
 	if get_tree().get_network_unique_id() == player_id:
@@ -40,9 +41,12 @@ func _physics_process(delta):
 	var render_time = Server.client_clock - interpolation_offset
 	if world_state_buffer.size() > 1:
 		
-		print("Server Clock: " + str(Server.client_clock))
-		print("System Clock: " + str(OS.get_system_time_msecs()))
-		print("World State: " + str(world_state_buffer[0]["T"]))
+		if printed_world_state == false:
+			print(world_state_buffer[1])
+			printed_world_state = true
+#		print("Server Clock: " + str(Server.client_clock))
+#		print("System Clock: " + str(OS.get_system_time_msecs()))
+#		print("World State: " + str(world_state_buffer[0]["T"]))
 		
 		while world_state_buffer.size() > 2 and render_time > world_state_buffer[2].T:
 			world_state_buffer.remove(0)

@@ -53,6 +53,6 @@ func OnDeath():
 	rotation = 90
 	position = get_position() + Vector2(-10,-8)
 	yield(get_tree().create_timer(1.5), "timeout")
-	self.hide()
+	
 
 
