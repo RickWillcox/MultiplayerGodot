@@ -3,6 +3,7 @@ extends Node2D
 var icespear = preload("res://Scenes/Player/ServerIceSpear.tscn")
 var enemy_spawn = preload("res://Scenes/ServerEnemy.tscn")
 
+# warning-ignore:unused_argument
 func SpawnAttack(spawn_time, a_rotation, a_position, a_direction, player_id):
 	var icespear_instance = icespear.instance()
 	icespear_instance.player_id = player_id

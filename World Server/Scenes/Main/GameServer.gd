@@ -8,7 +8,7 @@
 extends Node
 
 onready var player_verification_process = get_node("PlayerVerification")
-onready var combat_functions = get_node("Combat")
+#onready var combat_functions = get_node("Combat")
 
 var network = NetworkedMultiplayerENet.new()
 var port = 1909
@@ -59,11 +59,11 @@ func ReturnTokenVerificationResults(player_id, result):
 	if result == true:
 		rpc_id(0, "SpawnNewPlayer", player_id, Vector2(450, 220))
 
-remote func FetchSkillDamage(skill_name, requester):
-	var player_id = get_tree().get_rpc_sender_id()
-	var damage = get_node("Combat").FetchSkillDamage(skill_name)
-	rpc_id(player_id, "ReturnSkillDamage", damage, requester)
-	
+#remote func FetchSkillDamage(skill_name, requester):
+#	var player_id = get_tree().get_rpc_sender_id()
+#	var damage = get_node("Combat").FetchSkillDamage(skill_name)
+#	rpc_id(player_id, "ReturnSkillDamage", damage, requester)
+#
 
 remote func FetchPlayerStats():
 	var player_id = get_tree().get_rpc_sender_id()
@@ -92,8 +92,8 @@ remote func ReceivePlayerState(player_state):
 func SendWorldState(world_state): #in case of maps or chunks you will want to track player collection and send accordingly
 	rpc_unreliable_id(0, "ReceiveWorldState", world_state)
 
-remote func SendNPCHit(enemy_id, damage):
-	get_node("Map").NPCHit(enemy_id, damage)
+#remote func SendNPCHit(enemy_id, damage):
+#	get_node("Map").NPCHit(enemy_id, damage)
 
 remote func Attack(position, animation_vector, spawn_time, a_rotation, a_position, a_direction):
 	var player_id = get_tree().get_rpc_sender_id()

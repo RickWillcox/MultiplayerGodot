@@ -61,7 +61,6 @@ func Attack():
 	ice_spear_instance.position = a_position
 	ice_spear_instance.direction = a_direction
 	animation_mode.travel("Attack_Spell")
-	get_parent().add_child(ice_spear_instance)
 	yield(get_tree().create_timer(0.4), "timeout")
 	get_parent().add_child(ice_spear_instance)
 	yield(get_tree().create_timer(0.4), "timeout")

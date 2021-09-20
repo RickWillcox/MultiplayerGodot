@@ -41,6 +41,7 @@ func NPCHit(enemy_id, damage):
 	else:
 		enemy_list[enemy_id]["EnemyCurrentHealth"] = enemy_list[enemy_id]["EnemyCurrentHealth"] - damage
 		if enemy_list[enemy_id]["EnemyCurrentHealth"] <= 0:
+			get_node("/root/Server/ServerMap/YSort/Enemies/" + str(enemy_id)).queue_free()
 			enemy_list[enemy_id]["EnemyState"] = "Dead"
 			open_locations.append(occupied_locations[enemy_id])
 			occupied_locations.erase(enemy_id)

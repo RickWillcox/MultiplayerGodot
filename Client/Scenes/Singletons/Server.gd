@@ -77,8 +77,8 @@ remote func ReturnLatency(client_time):
 remote func FetchToken():
 	rpc_id(1, "ReturnToken", token)
 	
-func FetchSkillDamage(skill_name, requester):
-	rpc_id(1, "FetchSkillDamage", skill_name, requester)
+#func FetchSkillDamage(skill_name, requester):
+#	rpc_id(1, "FetchSkillDamage", skill_name, requester)
 	
 remote func ReturnTokenVerificationResults(result):
 	if result == true:
@@ -95,8 +95,8 @@ func SendPlayerState(player_state):
 remote func ReceiveWorldState(world_state):
 	get_node("../SceneHandler/Map").UpdateWorldState(world_state)
 
-remote func ReturnSkillDamage(s_damage, requester):
-	instance_from_id(requester).SetDamage(s_damage)
+#remote func ReturnSkillDamage(s_damage, requester):
+#	instance_from_id(requester).SetDamage(s_damage)
 
 func FetchPlayerStats():
 	rpc_id(1, "FetchPlayerStats")
@@ -110,8 +110,8 @@ remote func SpawnNewPlayer(player_id, spawn_position):
 remote func DespawnPlayer(player_id):
 	get_node("../SceneHandler/Map").DespawnPlayer(player_id)
 
-func NPCHit(enemy_id, damage):
-	rpc_id(1, "SendNPCHit", enemy_id, damage)
+#func NPCHit(enemy_id, damage):
+#	rpc_id(1, "SendNPCHit", enemy_id, damage)
 
 func SendAttack(position, animation_vector, a_rotation, a_position, a_direction):
 	rpc_id(1, "Attack", position, animation_vector, client_clock, a_rotation, a_position, a_direction)

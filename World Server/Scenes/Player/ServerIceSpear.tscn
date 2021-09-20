@@ -13,3 +13,5 @@ script = ExtResource( 1 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PoolVector2Array( 8.25068, -5.3299, 18.867, -2.17654, 15.083, -1.23053, 8.04046, 0.556377 )
+
+[connection signal="body_entered" from="." to="." method="_on_IceSpear_body_entered"]

@@ -41,7 +41,7 @@ func Attack():
 			icespear_instance.impulse_rotation = get_angle_to(position + attack_dict[attack]["AnimationVector"])
 			icespear_instance.position = get_node("TurnAxis/CastPoint").get_global_position()
 			icespear_instance.direction = attack_dict[attack]["AnimationVector"]	
-			icespear_instance.original = false
+#			icespear_instance.original = false
 			print("impulse rotation", icespear_instance.impulse_rotation)
 			print("position", icespear_instance.position )
 			print("direction", icespear_instance.direction )

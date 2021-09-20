@@ -22,8 +22,8 @@ func _physics_process(delta):
 func MoveEnemy(new_position):
 	set_position(new_position)
 	
-func on_hit(damage):
-	Server.NPCHit(int(get_name()), damage)
+#func on_hit(damage):
+#	Server.NPCHit(int(get_name()), damage)
 
 			
 func Health(health):
